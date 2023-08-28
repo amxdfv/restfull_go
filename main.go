@@ -23,6 +23,8 @@ func returnGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	//database_worker.WorkWithDb()
+
 	http.HandleFunc("/oslic", returnGet)
 	http.ListenAndServe(":8080", nil)
 }
