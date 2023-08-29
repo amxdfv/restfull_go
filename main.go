@@ -1,20 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"bytes"
 	"net/http"
+	"sqlite-test/database_worker"
 )
 
 func returnGet(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		w.Write([]byte("Пока не готово, но скоро будет"))
+		w.Write(database_worker.GetUserFromDB(r.URL.Query().Get("id")))
 	case http.MethodPost:
 		buf := make([]byte, 256)
 		r.Body.Read(buf)
-		fmt.Println(string(buf))
-		bodyResp := string(buf)
-		w.Write([]byte(bodyResp))
+		buf = bytes.Trim(buf, "\x00")
+		w.Write([]byte(database_worker.AddUserToDB(buf)))
 	case http.MethodPut:
 		w.Write([]byte("Пока не готово, но скоро будет"))
 	case http.MethodDelete:
@@ -23,8 +23,6 @@ func returnGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	//database_worker.WorkWithDb()
-
 	http.HandleFunc("/oslic", returnGet)
 	http.ListenAndServe(":8080", nil)
 }

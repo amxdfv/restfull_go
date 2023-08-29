@@ -2,6 +2,7 @@ package database_worker
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	//_ "github.com/colinking/go-sqlite3-native"
 	"github.com/google/uuid"
@@ -15,7 +16,7 @@ func createTable(db *sql.DB) {
         "id" CHAR,
         "Name" CHAR,
         "Age" INT,
-        "Adress" CHAR,
+        "Address" CHAR,
         "Car" CHAR);`
 	query, err := db.Prepare(users_table)
 	if err != nil {
@@ -26,12 +27,9 @@ func createTable(db *sql.DB) {
 
 }
 
-func GetUserFromDB(db *sql.DB, id string) {
-	var idd string
-	var Name string
-	var Age string
-	var Adress string
-	var Car string
+func GetUserFromDB(id string) []byte {
+	db := returnDB()
+	var YUser TestUser
 
 	getUserRequest := "select * from users where id =?"
 	res, err := db.Query(getUserRequest, id)
@@ -39,26 +37,27 @@ func GetUserFromDB(db *sql.DB, id string) {
 		log.Fatal(err)
 	}
 	res.Next()
-	res.Scan(&idd, &Name, &Age, &Adress, &Car)
-	fmt.Println(idd + " " + Name + " " + Age + " " + Adress + " " + Car)
+	res.Scan(&YUser.Id, &YUser.Name, &YUser.Age, &YUser.Address, &YUser.Car)
+	resp_body, err := json.Marshal(YUser)
+	return resp_body
 }
 
-func AddUserToDB(db *sql.DB) {
+func AddUserToDB(req_body []byte) string {
+	db := returnDB()
+	var UUuser TestUser
+	err := json.Unmarshal(req_body, &UUuser)
+	fmt.Println(err)
+
 	addUserRequest := "INSERT INTO users (id, Name, Age, Adress, Car) VALUES (?, ?, ?, ?, ?)"
-	id := uuid.New()
-	res, err := db.Exec(addUserRequest, id, "Олег", 32, "Томск", "Жигули")
-	//db.Query(addUserRequest, id)
-	//query, err := db.Prepare(addUserRequest)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(res)
-	fmt.Println(id)
+	id := uuid.New().String()
+	db.Exec(addUserRequest, id, UUuser.Name, UUuser.Age, UUuser.Address, UUuser.Car)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	return id
 }
 
-func WorkWithDb() {
+func returnDB() *sql.DB {
 	database, _ := sql.Open("sqlite3", "databsase.db")
-	//	AddUserToDB(database)
-	GetUserFromDB(database, "40a1709f-4006-43c4-8173-f2e2587d9274")
-	//createTable(database)
+	return database
 }

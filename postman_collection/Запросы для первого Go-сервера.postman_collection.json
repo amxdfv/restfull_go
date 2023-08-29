@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "4d986865-3798-461e-b1e3-08b1e74417fd",
+		"name": "Запросы для первого Go-сервера",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29413260"
+	},
+	"item": [
+		{
+			"name": "Запрос пользователя",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/oslic?id=40a1709f-4006-43c4-8173-f2e2587d9274",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oslic"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "40a1709f-4006-43c4-8173-f2e2587d9274"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавление нового пользователя",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Name\":\"Игорь\",\"Age\":45,\"Address\":\"Тула\",\"Car\":\"Тойота\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/oslic",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oslic"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
