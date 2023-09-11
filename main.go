@@ -16,9 +16,15 @@ func returnGet(w http.ResponseWriter, r *http.Request) {
 		buf = bytes.Trim(buf, "\x00")
 		w.Write([]byte(database_worker.AddUserToDB(buf)))
 	case http.MethodPut:
-		w.Write([]byte("Пока не готово, но скоро будет"))
+		buf := make([]byte, 256)
+		r.Body.Read(buf)
+		buf = bytes.Trim(buf, "\x00")
+		w.Write([]byte(database_worker.UpdateUserFromDB(buf)))
 	case http.MethodDelete:
-		w.Write([]byte("Пока не готово, но скоро будет"))
+		buf := make([]byte, 256)
+		r.Body.Read(buf)
+		buf = bytes.Trim(buf, "\x00")
+		w.Write([]byte("Удалено пользователей: " + database_worker.DeleteUserFromDB(buf)))
 	}
 }
 

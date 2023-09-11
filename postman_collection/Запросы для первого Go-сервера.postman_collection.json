@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/oslic?id=40a1709f-4006-43c4-8173-f2e2587d9274",
+					"raw": "localhost:8080/oslic?id=4220d17a-dd6f-45a5-8182-690ae73bb678",
 					"host": [
 						"localhost"
 					],
@@ -23,7 +23,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "40a1709f-4006-43c4-8173-f2e2587d9274"
+							"value": "4220d17a-dd6f-45a5-8182-690ae73bb678"
 						}
 					]
 				}
@@ -37,7 +37,61 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"Name\":\"Игорь\",\"Age\":45,\"Address\":\"Тула\",\"Car\":\"Тойота\"}",
+					"raw": "{\"Name\":\"Иван\",\"Age\":18,\"Address\":\"Орел\",\"Car\":\"Тойота\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/oslic",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oslic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удаление пользователя",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Id\":\"f1b5dbbb-6d56-4fba-b11f-c6d7dcfa00d0\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/oslic",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oslic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление поьзователя",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"4220d17a-dd6f-45a5-8182-690ae73bb678\",\"Name\":\"Олег\",\"Age\":50,\"Address\":\"Тула\",\"Car\":\"Тойота\"}",
 					"options": {
 						"raw": {
 							"language": "json"
