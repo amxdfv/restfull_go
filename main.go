@@ -1,30 +1,20 @@
 package main
 
 import (
-	"bytes"
 	"net/http"
-	"sqlite-test/database_worker"
+	"sqlite-test/server_worker"
 )
 
 func returnGet(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		w.Write(database_worker.GetUserFromDB(r.URL.Query().Get("id")))
+		w.Write(server_worker.GetReturn(r))
 	case http.MethodPost:
-		buf := make([]byte, 256)
-		r.Body.Read(buf)
-		buf = bytes.Trim(buf, "\x00")
-		w.Write([]byte(database_worker.AddUserToDB(buf)))
+		w.Write(server_worker.CreateReturn(r))
 	case http.MethodPut:
-		buf := make([]byte, 256)
-		r.Body.Read(buf)
-		buf = bytes.Trim(buf, "\x00")
-		w.Write([]byte(database_worker.UpdateUserFromDB(buf)))
+		w.Write(server_worker.UpdateReturn(r))
 	case http.MethodDelete:
-		buf := make([]byte, 256)
-		r.Body.Read(buf)
-		buf = bytes.Trim(buf, "\x00")
-		w.Write([]byte("Удалено пользователей: " + database_worker.DeleteUserFromDB(buf)))
+		w.Write(server_worker.DeleteReturn(r))
 	}
 }
 

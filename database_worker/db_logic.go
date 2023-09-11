@@ -22,62 +22,65 @@ func createTable(db *sql.DB) {
 
 }
 
-func GetUserFromDB(id string) []byte {
+func GetUserFromDB(id string) ([]byte, error) {
 	db := returnDB()
+	//var err error
 	var YUser TestUser
 
 	getUserRequest := "select * from users where id =?"
-	res, _ := db.Query(getUserRequest, id)
+	res, err := db.Query(getUserRequest, id)
+
 	defer res.Close()
 
 	res.Next()
-	res.Scan(&YUser.Id, &YUser.Name, &YUser.Age, &YUser.Address, &YUser.Car)
-	resp_body, _ := json.Marshal(YUser)
+	err = res.Scan(&YUser.Id, &YUser.Name, &YUser.Age, &YUser.Address, &YUser.Car)
+	resp_body, err := json.Marshal(YUser)
 	if YUser.Id == "" {
-		return nil
+		return nil, err
 	}
-	return resp_body
+	return resp_body, err
 }
 
-func AddUserToDB(req_body []byte) string {
+func AddUserToDB(req_body []byte) (string, error) {
 	db := returnDB()
 	var UUuser TestUser
-	json.Unmarshal(req_body, &UUuser)
+	err := json.Unmarshal(req_body, &UUuser)
 	addUserRequest := "INSERT INTO users (id, Name, Age, Adress, Car) VALUES (?, ?, ?, ?, ?)"
 	id := uuid.New().String()
-	db.Exec(addUserRequest, id, UUuser.Name, UUuser.Age, UUuser.Address, UUuser.Car)
-	return id
+	_, err = db.Exec(addUserRequest, id, UUuser.Name, UUuser.Age, UUuser.Address, UUuser.Car)
+	return id, err
 }
 
-func DeleteUserFromDB(req_body []byte) string {
+func DeleteUserFromDB(req_body []byte) (string, error) {
 	db := returnDB()
 	var DUser TestUser
 	var message string
-	json.Unmarshal(req_body, &DUser)
-	if GetUserFromDB(DUser.Id) == nil {
+	err := json.Unmarshal(req_body, &DUser)
+	searchRes, err := GetUserFromDB(DUser.Id)
+	if searchRes == nil {
 		message = "Пользователь не найден"
-		return message
+		return message, err
 	}
 	delUserRequest := "delete from users where id =?"
-	res, _ := db.Exec(delUserRequest, DUser.Id)
-	deleted_rows, _ := res.RowsAffected()
+	res, err := db.Exec(delUserRequest, DUser.Id)
+	deleted_rows, err := res.RowsAffected()
 	message = string(deleted_rows)
-	return message
+	return message, err
 
 }
 
-func UpdateUserFromDB(req_body []byte) string {
+func UpdateUserFromDB(req_body []byte) (string, error) {
 	db := returnDB()
 	var message string
 	var UpdUser TestUser
 	var OrigUser TestUser
-	json.Unmarshal(req_body, &UpdUser)
-	rawUser := GetUserFromDB(UpdUser.Id) // поищем запись для начала
+	err := json.Unmarshal(req_body, &UpdUser)
+	rawUser, err := GetUserFromDB(UpdUser.Id) // поищем запись для начала
 	if rawUser == nil {
 		message = "Пользователь не найден"
-		return message
+		return message, err
 	}
-	json.Unmarshal(rawUser, &OrigUser)
+	err = json.Unmarshal(rawUser, &OrigUser)
 	if UpdUser.Name == "" { // это если каких-то параметров нет, то возьмем старые
 		UpdUser.Name = OrigUser.Name
 	}
@@ -92,11 +95,9 @@ func UpdateUserFromDB(req_body []byte) string {
 	}
 
 	updUserRequest := "UPDATE users SET Name=?,Age=?, Adress=?,Car=? WHERE id = ?"
-	res, err := db.Exec(updUserRequest, UpdUser.Name, UpdUser.Age, UpdUser.Address, UpdUser.Car, UpdUser.Id)
-	fmt.Print(res)
-	fmt.Print(err)
+	_, err = db.Exec(updUserRequest, UpdUser.Name, UpdUser.Age, UpdUser.Address, UpdUser.Car, UpdUser.Id)
 	message = "Пользователь успешно обновлен"
-	return message
+	return message, err
 
 }
 
