@@ -8,13 +8,21 @@ import (
 func returnGet(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		w.Write(server_worker.GetReturn(r))
+		payload, code := server_worker.GetReturn(r)
+		w.WriteHeader(code)
+		w.Write(payload)
 	case http.MethodPost:
-		w.Write(server_worker.CreateReturn(r))
+		payload, code := server_worker.CreateReturn(r)
+		w.WriteHeader(code)
+		w.Write(payload)
 	case http.MethodPut:
-		w.Write(server_worker.UpdateReturn(r))
+		payload, code := server_worker.UpdateReturn(r)
+		w.WriteHeader(code)
+		w.Write(payload)
 	case http.MethodDelete:
-		w.Write(server_worker.DeleteReturn(r))
+		payload, code := server_worker.DeleteReturn(r)
+		w.WriteHeader(code)
+		w.Write(payload)
 	}
 }
 
