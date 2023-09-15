@@ -57,3 +57,12 @@ func readBody(request *http.Request) []byte {
 	buf = bytes.Trim(buf, "\x00")
 	return buf
 }
+
+func SecurityCheck(request *http.Request) bool {
+	user, pass, ok := request.BasicAuth()
+	if user == "oslic" && pass == "safe_mode" && ok == true { /// TODO: потом тут сделаю шифрование
+		return true
+	} else {
+		return false
+	}
+}
