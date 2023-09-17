@@ -56,6 +56,7 @@ func AddUserToDB(req_body []byte) (string, error) {
 	}
 	var UUuser TestUser
 	err = json.Unmarshal(req_body, &UUuser)
+	UUuser = RemoveDot(UUuser)
 	if err != nil {
 		return "", err
 	}
@@ -73,6 +74,7 @@ func DeleteUserFromDB(req_body []byte) (string, error) {
 	var DUser TestUser
 	var message string
 	err = json.Unmarshal(req_body, &DUser)
+	DUser.Id = strings.ReplaceAll(DUser.Id, ";", "")
 	if err != nil {
 		return "", err
 	}
@@ -103,6 +105,7 @@ func UpdateUserFromDB(req_body []byte) (string, error) {
 	var UpdUser TestUser
 	var OrigUser TestUser
 	err = json.Unmarshal(req_body, &UpdUser)
+	UpdUser = RemoveDot(UpdUser)
 	if err != nil {
 		return "", err
 	}

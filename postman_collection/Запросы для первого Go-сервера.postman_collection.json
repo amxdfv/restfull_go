@@ -9,10 +9,25 @@
 		{
 			"name": "Запрос пользователя",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "safe_mode_suslic",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "oslic",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/oslic?id=4220d17a-dd6f-45a5-8182-690ae73bb678",
+					"raw": "localhost:8080/oslic?id=4c69cd7d-da9e-4613-9720-103798847f07",
 					"host": [
 						"localhost"
 					],
@@ -23,7 +38,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "4220d17a-dd6f-45a5-8182-690ae73bb678"
+							"value": "4c69cd7d-da9e-4613-9720-103798847f07"
 						}
 					]
 				}
@@ -33,11 +48,26 @@
 		{
 			"name": "Добавление нового пользователя",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "safe_mode_suslic",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "oslic",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"Name\":\"Иван\",\"Age\":18,\"Address\":\"Орел\",\"Car\":\"Тойота\"}",
+					"raw": "{\"Name\":\"Ир;;а\",\"Age\":49,\"Address\":\"Тверь;\",\"Car\":\"Вол;га;\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -60,11 +90,26 @@
 		{
 			"name": "Удаление пользователя",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "safe_mode_suslic",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "oslic",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"Id\":\"f1b5dbbb-6d56-4fba-b11f-c6d7dcfa00d0\"}",
+					"raw": "{\"Id\":\"a543af5d-ce45-414d-8a7e-08837e2cff0e\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,11 +132,26 @@
 		{
 			"name": "Обновление поьзователя",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "safe_mode_suslic",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "oslic",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\":\"4220d17a-dd6f-45a5-8182-690ae73bb678\",\"Name\":\"Олег\",\"Age\":50,\"Address\":\"Тула\",\"Car\":\"Тойота\"}",
+					"raw": "{\"id\":\"a543af5d-ce45-414d-8a7e-08837e2cff0e\",\"Name\":\"Олег\",\"Age\":50,\"Address\":\"Тула\",\"Car\":\"Тойота\"}",
 					"options": {
 						"raw": {
 							"language": "json"

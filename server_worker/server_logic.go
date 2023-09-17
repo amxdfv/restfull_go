@@ -2,6 +2,9 @@ package server_worker
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
 	"net/http"
 	"sqlite-test/database_worker"
 )
@@ -60,7 +63,10 @@ func readBody(request *http.Request) []byte {
 
 func SecurityCheck(request *http.Request) bool {
 	user, pass, ok := request.BasicAuth()
-	if user == "oslic" && pass == "safe_mode" && ok == true { /// TODO: потом тут сделаю шифрование
+	h := md5.Sum([]byte(pass))
+	hpass := hex.EncodeToString(h[:])
+	fmt.Println(hpass)
+	if user == "oslic" && hpass == "418f37a7c234f270aa952991f0b90d10" && ok == true { /// TODO: потом тут сделаю шифрование
 		return true
 	} else {
 		return false
